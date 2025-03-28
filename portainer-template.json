@@ -1,0 +1,50 @@
+{
+    "id": <PORTAINER ID HERE>,
+    "type": 1,
+    "categories": [
+        "DDNS"
+    ],
+    "title": "CarlingDDNS",
+    "name": "CarlingDDNS",
+    "note": "",
+    "description": "DDNS for route53",
+    "platform": "linux",
+    "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdTzcBn27S1AKSS4es6aWZCtpGXLH1D7PiPA&s",
+    "image": "ghcr.io/acarling/ddns:latest",
+    "env": [
+        {
+            "name": "AWS_ACCESS_KEY_ID",
+            "label": "AWS_ACCESS_KEY_ID",
+            "default": "",
+            "description": "IAM access key for some api user - see readme"
+        },
+        {
+            "name": "AWS_SECRET_ACCESS_KEY",
+            "label": "AWS_SECRET_ACCESS_KEY",
+            "default": "",
+            "description": ""
+        },
+        {
+            "name": "A_RECORD_NAME",
+            "label": "A_RECORD_NAME",
+            "default": "home.acarling.au",
+            "description": "A record name which will be updated on IP change"
+        },
+        {
+            "name": "HOSTED_ZONE_ID",
+            "label": "HOSTED_ZONE_ID",
+            "default": "",
+            "description": ""
+        },
+        {
+            "name": "POLL_TIMEOUT_SECONDS",
+            "label": "POLL_TIMEOUT_SECONDS",
+            "default": "5",
+            "description": "Number of seconds between requests to public facing IP address readback api"
+        }
+    ],
+    "ports": [],
+    "volumes": [],
+    "restart_policy": "unless-stopped",
+    "maintainer": "https://github.com/ACarling"
+}

@@ -3,9 +3,9 @@ import route53
 import requests
 import time
 
-import dotenv
+# import dotenv
 
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
 AWS_ACCESS_SECRET = os.getenv("AWS_ACCESS_SECRET")
@@ -22,29 +22,20 @@ def main():
 
     cachedIp = ""
 
-    zone = conn.get_hosted_zone_by_id(HOSTED_ZONE_ID)
-    for record_set in zone.record_sets:
-        if A_RECORD_NAME in record_set.name:
-            print("Retrieved Ip: ", record_set.name, " ", record_set.records)
-            cachedIp = record_set.records[0]
-
-            if record_set.records[0] != cachedIp:
-                print("Updating Ip for: ", record_set.name, " ", record_set.records, " -> ", cachedIp)
-                record_set.records[0] = cachedIp
-                record_set.save()
 
     print("======= STARTING UPDATE LOOP =======")
     while True:
         req = requests.get("https://api.ipify.org")
         if req.status_code != 200:
             Exception("ERR: Ip readback service reported status: ", req.status_code)
-        
+
         IP = req.text
         if IP != cachedIp:
             print(time.asctime())
             zone = conn.get_hosted_zone_by_id(HOSTED_ZONE_ID)
             for record_set in zone.record_sets:
                 if A_RECORD_NAME in record_set.name:
+                    record_set.name = record_set.name.replace("\\052", "*")
                     print(" > Cached IP and public ip mismatch, dns lookup says: ", record_set.name, " ", record_set.records)
                     if record_set.records[0] != IP:
                         print("     |- Updating Ip for: ", record_set.name, " ", record_set.records, " -> ", IP)
