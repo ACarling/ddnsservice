@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/acarling/ddns:$(date +%s) && docker push ghcr.io/acarling/ddns:$(date +%s)
+      run: STAMP=$(date +%s) && docker build . --file Dockerfile --tag ghcr.io/acarling/ddns:$STAMP && docker push ghcr.io/acarling/ddns:$STAMP
