@@ -37,7 +37,7 @@ def main():
             try:
                 ipaddress.ip_address(IP)
             except:
-                print("ERR: Ip readback service didn't retuin IP address")
+                print("ERR: Ip readback service didn't return IP address")
                 print(req.text)
                 continue
             
@@ -45,7 +45,7 @@ def main():
             for record_set in zone.record_sets:
                 if A_RECORD_NAME in record_set.name:
                     record_set.name = record_set.name.replace("\\052", "*")
-                    print(" > Cached IP and public ip mismatch, CachedIP: ", cachedIP, "; dns record: ", record_set.name, " ", record_set.records, "; publicIP ", IP)
+                    print(" > Cached IP and public ip mismatch, CachedIP: ", cachedIp, "; dns record: ", record_set.name, " ", record_set.records, "; publicIP ", IP)
                     if record_set.records[0] != IP:
                         print("     |- Updating Ip for: ", record_set.name, " ", record_set.records, " -> ", IP)
                         record_set.records[0] = IP
