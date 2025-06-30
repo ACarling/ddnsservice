@@ -51,7 +51,8 @@ def main():
                         record_set.records[0] = IP
                         record_set.save()
                     else:
-                        print("     |- no need to update: ")
+                        print("     |- no need to update DNS")
+                        print("     |- Updated Cached ip: ", cachedIp, " -> ", IP)
 
             cachedIp = IP
             print()
