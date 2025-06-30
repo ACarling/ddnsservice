@@ -2,6 +2,7 @@ import os
 import route53
 import requests
 import time
+import ipaddress
 
 # import dotenv
 
@@ -30,13 +31,21 @@ def main():
             Exception("ERR: Ip readback service reported status: ", req.status_code)
 
         IP = req.text
+        
         if IP != cachedIp:
             print(time.asctime())
+            try:
+                ipaddress.ip_address(IP)
+            except:
+                print("ERR: Ip readback service didn't retuin IP address")
+                print(req.text)
+                continue
+            
             zone = conn.get_hosted_zone_by_id(HOSTED_ZONE_ID)
             for record_set in zone.record_sets:
                 if A_RECORD_NAME in record_set.name:
                     record_set.name = record_set.name.replace("\\052", "*")
-                    print(" > Cached IP and public ip mismatch, dns lookup says: ", record_set.name, " ", record_set.records)
+                    print(" > Cached IP and public ip mismatch, CachedIP: ", cachedIP, "; dns record: ", record_set.name, " ", record_set.records, "; publicIP ", IP)
                     if record_set.records[0] != IP:
                         print("     |- Updating Ip for: ", record_set.name, " ", record_set.records, " -> ", IP)
                         record_set.records[0] = IP
