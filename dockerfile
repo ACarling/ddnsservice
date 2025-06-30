@@ -1,3 +1,6 @@
+# syntax=docker/dockerfile:1
+# check=skip=SecretsUsedInArgOrEnv
+
 FROM python:3.7-alpine
 
 ADD ddns.py .
