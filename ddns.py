@@ -4,10 +4,6 @@ import requests
 import time
 import ipaddress
 
-# import dotenv
-
-# dotenv.load_dotenv()
-
 AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
 AWS_ACCESS_SECRET = os.getenv("AWS_ACCESS_SECRET")
 A_RECORD_NAME = os.getenv("A_RECORD_NAME")
@@ -22,7 +18,6 @@ def main():
     )
 
     cachedIp = ""
-
 
     print("======= STARTING UPDATE LOOP =======")
     while True:
@@ -44,7 +39,7 @@ def main():
             zone = conn.get_hosted_zone_by_id(HOSTED_ZONE_ID)
             for record_set in zone.record_sets:
                 if A_RECORD_NAME in record_set.name:
-                    record_set.name = record_set.name.replace("\\052", "*")
+                    record_set.name = record_set.name.replace("\\052", "*") # fix encoding
                     print(" > Cached IP and public ip mismatch, CachedIP: ", cachedIp, "; dns record: ", record_set.name, " ", record_set.records, "; publicIP ", IP)
                     if record_set.records[0] != IP:
                         print("     |- Updating Ip for: ", record_set.name, " ", record_set.records, " -> ", IP)
