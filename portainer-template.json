@@ -27,7 +27,7 @@
         {
             "name": "A_RECORD_NAME",
             "label": "A_RECORD_NAME",
-            "default": "home.acarling.au",
+            "default": "my.domain.com",
             "description": "A record name which will be updated on IP change"
         },
         {
